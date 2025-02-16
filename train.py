@@ -44,7 +44,7 @@ def train(size: typing.Literal["small", "medium", "large"]):
             loss_values.append(loss.item())
             print('eopch:', epoch + 1, 'step:', step + 1, 'loss:', loss.item())
 
-    torch.save(model.state_dict(), f"model_{size}.pt")
+    torch.save(model.state_dict(), f"dist/model_{size}.pt")
 
     plt.plot(loss_values)
     plt.xlabel('Iteration')
