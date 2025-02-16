@@ -2,8 +2,6 @@ import os
 import random
 import re
 import string
-import typing
-
 import numpy as np
 import torch
 from PIL import Image
@@ -15,25 +13,20 @@ chars.sort()
 chars_len = len(chars)
 max_capcha = 6
 
+
 def encode(a):
     onehot = [0] * chars_len
     idx = chars.index(a)
     onehot[idx] += 1
     return onehot
 
+
 class DatasetLoader(Dataset):
-    def __init__(self, path, size: typing.Literal["small", "medium", "large"], *, is_test=False, transform=None):
+    def __init__(self, path, *, is_test=False, transform=None):
         self.transform = transform
         self.path = path
         data_images = os.listdir(self.path)
         random.shuffle(data_images)
-
-        if size == "small":
-            data_images = data_images[:len(data_images) // 3]
-        elif size == "medium":
-            data_images = data_images[:len(data_images) // 2]
-        elif size == "large":
-            data_images = data_images
 
         test_len = len(data_images) // 3
         train_len = len(data_images) - test_len
@@ -58,6 +51,7 @@ class DatasetLoader(Dataset):
         if self.transform:
             pil_img = self.transform(pil_img)
         return pil_img, np.array(lable_list), label
+
 
 class OcrModel(torch.nn.Module):
     def __init__(self):

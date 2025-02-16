@@ -1,6 +1,3 @@
-import sys
-import typing
-
 import matplotlib.pyplot as plt
 import torch
 from torch.autograd import Variable
@@ -12,19 +9,19 @@ from core import chars, DatasetLoader, OcrModel
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 data_set_path = "data"
 
-def train(size: typing.Literal["small", "medium", "large"]):
+
+def train():
     transform = transforms.Compose([
         transforms.Resize((160, 50)),
         transforms.ToTensor()
     ])
 
-    train_dataset = DatasetLoader(data_set_path, size, transform=transform)
-    test_dataset = DatasetLoader(data_set_path, size, is_test=True, transform=transform)
-
-    print("train:", len(train_dataset), "test:", len(test_dataset))
-
+    train_dataset = DatasetLoader(data_set_path, transform=transform)
+    test_dataset = DatasetLoader(data_set_path, is_test=True, transform=transform)
     train_dl = DataLoader(train_dataset, batch_size=64, shuffle=True)
     test_dl = DataLoader(test_dataset)
+
+    print("train:", len(train_dataset), "test:", len(test_dataset))
 
     model = OcrModel().to(device)
     loss_func = torch.nn.MultiLabelSoftMarginLoss()
@@ -44,15 +41,15 @@ def train(size: typing.Literal["small", "medium", "large"]):
             loss_values.append(loss.item())
             print('eopch:', epoch + 1, 'step:', step + 1, 'loss:', loss.item())
 
-    torch.save(model.state_dict(), f"dist/model_{size}.pt")
+    torch.save(model.state_dict(), f"model.pt")
 
     plt.plot(loss_values)
     plt.xlabel('Iteration')
     plt.ylabel('Loss')
-    plt.title(f'Training Loss ({size})')
-    plt.savefig(f'loss_{size}.png')
+    plt.title(f'Training Loss')
+    plt.savefig(f'loss.png')
 
-    # Test
+    # Test the model
 
     total = 0
     correct = 0
@@ -65,14 +62,12 @@ def train(size: typing.Literal["small", "medium", "large"]):
 
         pred_labels = pred.argmax(dim=2)
         pred_text = [''.join([chars[c] for c in pred_label]) for pred_label in pred_labels]
-        print('Correct:', label, pred_text[0])
         if label == pred_text[0]:
-
             correct += 1
         total += 1
 
-    print(f'Accuracy {size}:', correct, '/', total, correct / total)
+    print(f'Accuracy:', correct, '/', total, correct / total)
+
 
 if __name__ == '__main__':
-    for size in ["small", "medium", "large"]:
-        train(size)
+    train()
