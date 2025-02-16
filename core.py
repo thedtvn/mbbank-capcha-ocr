@@ -51,8 +51,7 @@ class DatasetLoader(Dataset):
 
     def __getitem__(self, idx):
         img_path, label = self.get_name(idx)
-        pil_img = Image.open(img_path)
-        pil_img.convert("L")
+        pil_img = Image.open(img_path).convert("L")
         lable_list = []
         for c in label:
             lable_list.append(encode(c))
@@ -64,7 +63,7 @@ class OcrModel(torch.nn.Module):
     def __init__(self):
         super(OcrModel, self).__init__()
         self.model = models.resnet18()
-        self.model.conv1 = torch.nn.Conv2d(3, 64, kernel_size=(160, 50), stride=(2, 2), padding=(3, 3), bias=False)
+        self.model.conv1 = torch.nn.Conv2d(1, 64, kernel_size=(160, 50), stride=(2, 2), padding=(3, 3), bias=False)
         self.model.fc = torch.nn.Linear(in_features=512, out_features=chars_len * max_capcha)
 
     def forward(self, x):

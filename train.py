@@ -74,6 +74,5 @@ def train(size: typing.Literal["small", "medium", "large"]):
     print(f'Accuracy {size}:', correct, '/', total, correct / total)
 
 if __name__ == '__main__':
-    size = sys.argv[1]
-    print("Start train", size, "model")
-    train(size)
+    for size in ["small", "medium", "large"]:
+        train(size)
