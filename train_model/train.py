@@ -1,14 +1,22 @@
+import os
+import sys
+
 import matplotlib.pyplot as plt
 import torch
 from torch.autograd import Variable
 from torch.utils.data import DataLoader
 from torchvision import transforms
 
-from core import chars, DatasetLoader, OcrModel
+# Add the root folder to the sys path
+root_folder = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+sys.path.append(root_folder)
+
+from mb_capcha_ocr import chars, DatasetLoader, OcrModel
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-data_set_path = "data"
-
+# dataset path
+# dataset fomart is: {label}.(png|jpg|jpeg)
+data_set_path = "dataset"
 
 def train():
     transform = transforms.Compose([

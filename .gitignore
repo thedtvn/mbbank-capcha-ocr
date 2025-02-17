@@ -175,6 +175,5 @@ cython_debug/
 
 # model output
 *.png
-*.pt
 data
 dist
