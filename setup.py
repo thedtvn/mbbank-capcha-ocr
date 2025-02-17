@@ -11,7 +11,7 @@ with open('mb_capcha_ocr/__init__.py') as f:
     version = re.search(r'^__version__\s*=\s*[\'"]([^\'"]*)[\'"]', f.read(), re.MULTILINE).group(1)
 
 setup(
-    name='mbbank-lib',
+    name='mb_capcha_ocr',
     version=version,
     license="Apache License, Version 2.0",
     description='An pytorch ocr base library for MBBank lib',
