@@ -13,7 +13,7 @@ with open('mb_capcha_ocr/__init__.py') as f:
 setup(
     name='mb_capcha_ocr',
     version=version,
-    license="Apache License, Version 2.0",
+    license="MIT",
     description='An pytorch ocr base library for MBBank lib',
     long_description=ldr,
     long_description_content_type="text/markdown",
