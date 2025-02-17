@@ -4,7 +4,7 @@ from setuptools import setup
 with open("requirements.txt") as f:
     req = f.read().splitlines()
 
-with open("README.MD") as f:
+with open("README.md") as f:
     ldr = f.read()
 
 with open('mb_capcha_ocr/__init__.py') as f:
