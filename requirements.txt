@@ -2,3 +2,5 @@ torch
 torchvision
 pillow
 numpy
+setuptools
+wheel
