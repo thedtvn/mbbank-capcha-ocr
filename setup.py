@@ -20,7 +20,9 @@ setup(
     url='https://github.com/thedtvn/mbbank-capcha-ocr',
     author='The DT',
     packages=["mb_capcha_ocr"],
-    data_files=[("", ["mb_capcha_ocr/model.pt"])],
+    package_data={
+        'mb_capcha_ocr': ['model.pt'],
+    },
     install_requires=req,
     include_package_data=True
 )
