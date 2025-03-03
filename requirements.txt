@@ -1,5 +1,4 @@
-torch
-torchvision
+onnxruntime
 pillow
 numpy
 setuptools

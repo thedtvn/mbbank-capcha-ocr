@@ -3,3 +3,5 @@ torchvision
 pillow
 numpy
 matplotlib
+onnx
+onnxscript

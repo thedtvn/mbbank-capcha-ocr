@@ -11,7 +11,7 @@ from torchvision import transforms
 root_folder = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 sys.path.append(root_folder)
 
-from mb_capcha_ocr import chars, DatasetLoader, OcrModel
+from core import chars, DatasetLoader, OcrModel
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 # dataset path
@@ -20,7 +20,7 @@ data_set_path = "dataset"
 
 def train():
     transform = transforms.Compose([
-        transforms.Resize((160, 50)),
+        transforms.Resize((50, 160)),
         transforms.ToTensor()
     ])
 
@@ -49,7 +49,9 @@ def train():
             loss_values.append(loss.item())
             print('eopch:', epoch + 1, 'step:', step + 1, 'loss:', loss.item())
 
-    torch.save(model.state_dict(), f"model.pt")
+    torch_input = torch.randn(1, 1, 50, 160).to(device)
+    onnx_program = torch.onnx.dynamo_export(model, torch_input)
+    onnx_program.save("model.onnx")
 
     plt.plot(loss_values)
     plt.xlabel('Iteration')

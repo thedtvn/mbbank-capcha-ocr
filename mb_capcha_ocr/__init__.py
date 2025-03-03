@@ -1,4 +1,3 @@
-from .core import chars, chars_len, DatasetLoader, OcrModel
-from .predict import predict
+from .predict import OcrModel
 
 __version__ = "0.1.2"
