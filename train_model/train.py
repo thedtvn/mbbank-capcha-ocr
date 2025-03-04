@@ -50,8 +50,7 @@ def train():
             print('eopch:', epoch + 1, 'step:', step + 1, 'loss:', loss.item())
 
     torch_input = torch.randn(1, 1, 50, 160).to(device)
-    onnx_program = torch.onnx.dynamo_export(model, torch_input)
-    onnx_program.save("model.onnx")
+    onnx_program = torch.onnx.export(model, (torch_input, ), "model.onnx", input_names=['input'], output_names=['output'])
 
     plt.plot(loss_values)
     plt.xlabel('Iteration')
