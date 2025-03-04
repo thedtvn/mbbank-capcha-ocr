@@ -28,7 +28,7 @@ class DatasetLoader(Dataset):
         data_images = os.listdir(self.path)
         random.shuffle(data_images)
 
-        test_len = len(data_images) // 3
+        test_len = len(data_images) // 10 if len(data_images) // 10 > 0 else 1
         train_len = len(data_images) - test_len
         if is_test:
             self.images = data_images[:test_len]

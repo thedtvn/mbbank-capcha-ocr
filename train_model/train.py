@@ -71,7 +71,7 @@ def train():
 
         pred_labels = pred.argmax(dim=2)
         pred_text = [''.join([chars[c] for c in pred_label]) for pred_label in pred_labels]
-        if label == pred_text[0]:
+        if label[0] == pred_text[0]:
             correct += 1
         total += 1
 
