@@ -31,8 +31,3 @@ class OcrModel:
         pred_text = [''.join([self.chars[c] for c in pred_label]) for pred_label in pred_labels]
         return pred_text
 
-if __name__ == "__main__":
-    model = OcrModel()
-    img = Image.open("download.png")
-    print(model.predict(img))
-

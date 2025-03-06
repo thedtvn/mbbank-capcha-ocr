@@ -21,7 +21,7 @@ setup(
     author='The DT',
     packages=["mb_capcha_ocr"],
     package_data={
-        'mb_capcha_ocr': ['model.pt'],
+        'mb_capcha_ocr': ['model.onnx'],
     },
     install_requires=req,
     include_package_data=True
