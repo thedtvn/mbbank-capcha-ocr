@@ -13,7 +13,7 @@ class OcrModel:
     chars = list(string.digits + string.ascii_letters)
 
     def __init__(self, model_path: str=None):
-        print(self.chars)
+        self.chars.sort()
         self.session = onnxruntime.InferenceSession(model_path or f"{dir_path}/model.onnx")
 
     def predict(self, img_data: Image):
@@ -29,5 +29,5 @@ class OcrModel:
 
         pred_labels = np.argmax(pred, axis=2)
         pred_text = [''.join([self.chars[c] for c in pred_label]) for pred_label in pred_labels]
-        return pred_text
+        return pred_text[0]
 

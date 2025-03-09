@@ -47,7 +47,7 @@ def train():
             loss.backward()
             optimizer.step()
             loss_values.append(loss.item())
-            print('eopch:', epoch + 1, 'step:', step + 1, 'loss:', loss.item())
+            print('epoch:', epoch + 1, 'step:', step + 1, 'loss:', loss.item())
 
     torch_input = torch.randn(1, 1, 50, 160).to(device)
     torch.onnx.export(model, (torch_input, ), "model.onnx", input_names=['input'], output_names=['output'])
