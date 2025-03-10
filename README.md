@@ -1,6 +1,7 @@
 # OCR Model Training and Prediction
 
-This project is designed to train and use an Optical Character Recognition (OCR) model for recognizing characters in CAPTCHA images.
+This project is designed to train and use an Optical Character Recognition (OCR) model for recognizing characters in
+CAPTCHA images.
 
 ## Project Structure
 
@@ -13,6 +14,7 @@ This project is designed to train and use an Optical Character Recognition (OCR)
     ```sh
     git clone https://github.com/thedtvn/mbbank-capcha-ocr
     cd mbbank-capcha-ocr
+    cd train_model
     ```
 
 2. Create and activate a virtual environment:
@@ -23,35 +25,32 @@ This project is designed to train and use an Optical Character Recognition (OCR)
 
 3. Install the required dependencies:
     ```sh
-    pip install -r requirements.txt
+    pip install -r train_requirements.txt
     ```
 
 ## Training the Model
 
-1. Place your training and testing images in the `dataset/` directory. The images should be named in the format `{label}.(png|jpg|jpeg)`.
+1. Place your training and testing images in the `dataset/` directory. The images should be named in the format
+   `{label}.(png|jpg|jpeg)`.
 
 2. Run the training script:
     ```sh
-    python train_model/train.py
+    python train.py
     ```
 
-3. The trained model will be saved as `model.pt` in the root directory.
+3. The trained model will be saved as `model.onnx` in the directory.
 
 ## Using the Model for Prediction
 
-1. Import the `predict` function from the `mb_capcha_ocr` module:
-    ```python
-    from mb_capcha_ocr.predict import predict
-    ```
+```python
+from PIL import Image
+from mb_capcha_ocr import OcrModel
 
-2. Use the `predict` function to get the predicted text from an image:
-    ```python
-    from PIL import Image
-
-    img = Image.open("path_to_image.png")
-    predicted_text = predict(img)
-    print(predicted_text)
-    ```
+model = OcrModel()  # model_path optional if using custom model
+img = Image.open("path_to_image.png")
+predicted_text = model.predict(img)
+print(predicted_text)
+```
 
 ## Files
 
@@ -62,11 +61,24 @@ This project is designed to train and use an Optical Character Recognition (OCR)
 ## Dependencies
 
 - Python 3.x
+- numpy
+- onnxruntime
+- Pillow
+
+## Dependencies Training
+
+- Python 3.x
 - torch
 - torchvision
 - matplotlib
 - Pillow
+- onnx
 
 ## License
 
 This project is licensed under the MIT License. See the `LICENSE` file for more details.
+
+## Credits
+
+Best thanks to [CookieGMVN](https://github.com/cookieGMVN) for providing
+the [dataset](https://www.kaggle.com/datasets/cookiegmvn/mbbank-captcha-images).

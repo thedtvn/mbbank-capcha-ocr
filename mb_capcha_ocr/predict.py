@@ -1,10 +1,8 @@
 import os
 import string
-
 import numpy as np
 import onnxruntime
 from PIL import Image
-from torchvision import transforms
 
 dir_path = os.path.dirname(os.path.realpath(__file__))
 
@@ -30,4 +28,3 @@ class OcrModel:
         pred_labels = np.argmax(pred, axis=2)
         pred_text = [''.join([self.chars[c] for c in pred_label]) for pred_label in pred_labels]
         return pred_text[0]
-
