@@ -17,7 +17,6 @@ class OcrModel:
     def predict(self, img_data: Image):
         img = img_data.convert("L")
         img = img.resize((160, 50))
-        img.show()
         img = np.array(img, dtype=np.float32) / 255.0
         img = np.expand_dims(img, axis=0)
         img = np.expand_dims(img, axis=0)
