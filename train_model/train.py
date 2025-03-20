@@ -25,8 +25,8 @@ def train(size: Literal["small", "medium", "large"]):
         transforms.ToTensor()
     ])
 
-    train_dataset = DatasetLoader(data_set_path, transform=transform)
-    test_dataset = DatasetLoader(data_set_path, is_test=True, transform=transform)
+    train_dataset = DatasetLoader(data_set_path, size, transform=transform)
+    test_dataset = DatasetLoader(data_set_path, size, is_test=True, transform=transform)
     train_dl = DataLoader(train_dataset, batch_size=64, shuffle=True)
     test_dl = DataLoader(test_dataset)
 
@@ -80,5 +80,5 @@ def train(size: Literal["small", "medium", "large"]):
 
 
 if __name__ == '__main__':
-    for size in ["small", "medium", "large"]:
+    for size in ["tiny", "small", "medium", "large"]:
         train(size)

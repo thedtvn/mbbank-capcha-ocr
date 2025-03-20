@@ -22,10 +22,22 @@ def encode(a):
 
 
 class DatasetLoader(Dataset):
-    def __init__(self, path, *, is_test=False, transform=None):
+
+    # model size limit of image edit this if you want to change the size
+    size = {
+        "tiny": 500,
+        "small": 1000,
+        "medium": 1500,
+        "large": None
+    }
+
+    def __init__(self, path, size, *, is_test=False, transform=None):
         self.transform = transform
         self.path = path
         data_images = os.listdir(self.path)
+
+        if self.size[size] is not None:
+            data_images = data_images[:self.size[size]]
 
         test_len = len(data_images) // 10 if len(data_images) // 10 > 0 else 1
         train_len = len(data_images) - test_len
@@ -54,9 +66,17 @@ class DatasetLoader(Dataset):
 
 
 class OcrModel(torch.nn.Module):
-    def __init__(self):
+
+    models = {
+        "tiny": models.resnet18,
+        "small": models.resnet34,
+        "medium": models.resnet101,
+        "large": models.resnet152
+    }
+
+    def __init__(self, size):
         super(OcrModel, self).__init__()
-        self.model = models.resnet18()
+        self.model = self.models[size]()
         self.model.conv1 = torch.nn.Conv2d(1, 64, kernel_size=(50, 160), stride=(2, 2), padding=(3, 3), bias=False)
         self.model.fc = torch.nn.Linear(in_features=512, out_features=chars_len * max_capcha)
 
