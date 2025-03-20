@@ -1,5 +1,6 @@
 import os
 import sys
+from typing import Literal
 
 import matplotlib.pyplot as plt
 import torch
@@ -18,7 +19,7 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 # dataset fomart is: {label}.(png|jpg|jpeg)
 data_set_path = "dataset"
 
-def train():
+def train(size: Literal["small", "medium", "large"]):
     transform = transforms.Compose([
         transforms.Resize((50, 160)),
         transforms.ToTensor()
@@ -31,7 +32,7 @@ def train():
 
     print("train:", len(train_dataset), "test:", len(test_dataset))
 
-    model = OcrModel().to(device)
+    model = OcrModel(size).to(device)
     loss_func = torch.nn.MultiLabelSoftMarginLoss()
     optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
     loss_values = []
@@ -50,13 +51,13 @@ def train():
             print('epoch:', epoch + 1, 'step:', step + 1, 'loss:', loss.item())
 
     torch_input = torch.randn(1, 1, 50, 160).to(device)
-    torch.onnx.export(model, (torch_input, ), "model.onnx", input_names=['input'], output_names=['output'])
+    torch.onnx.export(model, (torch_input, ), f"{size}.onnx", input_names=['input'], output_names=['output'])
 
     plt.plot(loss_values)
     plt.xlabel('Iteration')
     plt.ylabel('Loss')
-    plt.title(f'Training Loss')
-    plt.savefig(f'loss.png')
+    plt.title(f'Training Loss ({size})')
+    plt.savefig(f'loss_{size}.png')
 
     # Test the model
 
@@ -79,4 +80,5 @@ def train():
 
 
 if __name__ == '__main__':
-    train()
+    for size in ["small", "medium", "large"]:
+        train(size)
