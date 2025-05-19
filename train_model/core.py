@@ -25,9 +25,9 @@ class DatasetLoader(Dataset):
 
     # model size limit of image edit this if you want to change the size
     size = {
-        "tiny": 500,
-        "small": 1000,
-        "medium": 1500,
+        "tiny": 62_500,
+        "small": 125_000,
+        "medium": 250_000,
         "large": None
     }
 
@@ -35,7 +35,7 @@ class DatasetLoader(Dataset):
         self.transform = transform
         self.path = path
         data_images = os.listdir(self.path)
-
+        random.shuffle(data_images)
         if self.size[size] is not None:
             data_images = data_images[:self.size[size]]
 
