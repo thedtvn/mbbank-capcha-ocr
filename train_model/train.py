@@ -1,3 +1,4 @@
+import multiprocessing
 import os
 import sys
 from typing import Literal
@@ -78,7 +79,13 @@ def train(size: Literal["small", "medium", "large"]):
 
     print(f'Accuracy:', correct, '/', total, correct / total)
 
-
+modal_size = ["tiny", "small", "medium", "large"]
+processes = []
 if __name__ == '__main__':
-    for size in ["tiny", "small", "medium", "large"]:
-        train(size)
+    multiprocessing.freeze_support()
+    for size in modal_size:
+        p = multiprocessing.Process(target=train, args=(size, ))
+        p.start()
+        processes.append(p)
+    for p in processes:
+        p.join()

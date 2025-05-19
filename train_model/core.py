@@ -78,7 +78,8 @@ class OcrModel(torch.nn.Module):
         super(OcrModel, self).__init__()
         self.model = self.models[size]()
         self.model.conv1 = torch.nn.Conv2d(1, 64, kernel_size=(50, 160), stride=(2, 2), padding=(3, 3), bias=False)
-        self.model.fc = torch.nn.Linear(in_features=512, out_features=chars_len * max_capcha)
+        in_features = self.model.fc.in_features
+        self.model.fc = torch.nn.Linear(in_features=in_features, out_features=chars_len * max_capcha)
 
     def forward(self, x):
         x = self.model(x)
