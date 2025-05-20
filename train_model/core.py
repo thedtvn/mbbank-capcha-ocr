@@ -24,20 +24,15 @@ def encode(a):
 class DatasetLoader(Dataset):
 
     # model size limit of image edit this if you want to change the size
-    size = {
-        "tiny": 62_500,
-        "small": 125_000,
-        "medium": 250_000,
-        "large": None
-    }
 
-    def __init__(self, path, size, *, is_test=False, transform=None):
+    def __init__(self, path, *, is_test=False, transform=None):
         self.transform = transform
         self.path = path
         data_images = os.listdir(self.path)
         random.shuffle(data_images)
-        if self.size[size] is not None:
-            data_images = data_images[:self.size[size]]
+
+        # size limit of images It stop make modal overfitting
+        data_images = data_images[:62_500]
 
         test_len = len(data_images) // 10 if len(data_images) // 10 > 0 else 1
         train_len = len(data_images) - test_len
@@ -57,26 +52,18 @@ class DatasetLoader(Dataset):
     def __getitem__(self, idx):
         img_path, label = self.get_name(idx)
         pil_img = Image.open(img_path).convert("L")
-        lable_list = []
+        label_list = []
         for c in label:
-            lable_list.append(encode(c))
+            label_list.append(encode(c))
         if self.transform:
             pil_img = self.transform(pil_img)
-        return pil_img, np.array(lable_list), label
+        return pil_img, np.array(label_list), label
 
 
 class OcrModel(torch.nn.Module):
-
-    models = {
-        "tiny": models.resnet18,
-        "small": models.resnet34,
-        "medium": models.resnet101,
-        "large": models.resnet152
-    }
-
-    def __init__(self, size):
+    def __init__(self):
         super(OcrModel, self).__init__()
-        self.model = self.models[size]()
+        self.model = models.resnet18()
         self.model.conv1 = torch.nn.Conv2d(1, 64, kernel_size=(50, 160), stride=(2, 2), padding=(3, 3), bias=False)
         in_features = self.model.fc.in_features
         self.model.fc = torch.nn.Linear(in_features=in_features, out_features=chars_len * max_capcha)

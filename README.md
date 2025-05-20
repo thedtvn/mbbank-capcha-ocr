@@ -81,4 +81,4 @@ This project is licensed under the MIT License. See the `LICENSE` file for more 
 ## Credits
 
 Best thanks to [CookieGMVN](https://github.com/cookieGMVN) for providing
-the [dataset](https://www.kaggle.com/datasets/cookiegmvn/mbbank-captcha-images).
+the dataset [V1](https://www.kaggle.com/datasets/cookiegmvn/mbbank-captcha-images) [V2](https://www.kaggle.com/datasets/cookiegmvn/mbbank-captcha-v2).
