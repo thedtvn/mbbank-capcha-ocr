@@ -3,6 +3,7 @@ import string
 import numpy as np
 import onnxruntime
 from PIL import Image
+from typing import Optional
 
 dir_path = os.path.dirname(os.path.realpath(__file__))
 
@@ -10,7 +11,7 @@ class OcrModel:
 
     chars = list(string.digits + string.ascii_letters)
 
-    def __init__(self, model_path: str=None):
+    def __init__(self, model_path: Optional[str]=None):
         self.chars.sort()
         self.session = onnxruntime.InferenceSession(model_path or f"{dir_path}/model.onnx")
 

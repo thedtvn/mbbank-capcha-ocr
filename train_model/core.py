@@ -6,7 +6,8 @@ import numpy as np
 import torch
 from PIL import Image
 from torch.utils.data import Dataset
-from torchvision import models
+from torchvision import models, transforms
+from typing import Optional, Any
 
 chars = list(string.digits + string.ascii_letters)
 chars.sort()
@@ -25,7 +26,7 @@ class DatasetLoader(Dataset):
 
     # model size limit of image edit this if you want to change the size
 
-    def __init__(self, path, *, is_test=False, transform=None):
+    def __init__(self, path, *, is_test: Optional[bool]=False, transform: Optional[transforms.Compose]=None):
         self.transform = transform
         self.path = path
         data_images = os.listdir(self.path)
