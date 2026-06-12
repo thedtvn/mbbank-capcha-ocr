@@ -82,3 +82,15 @@ This project is licensed under the MIT License. See the `LICENSE` file for more 
 
 Best thanks to [CookieGMVN](https://github.com/cookieGMVN) for providing
 the dataset [V1](https://www.kaggle.com/datasets/cookiegmvn/mbbank-captcha-images) [V2](https://www.kaggle.com/datasets/cookiegmvn/mbbank-captcha-v2).
+
+## Disclaimer
+
+This project is not affiliated with MBBank. Use it responsibly and at your own risk.
+
+The author is not liable for any damage or loss resulting from the use of this library.
+
+## Legal
+
+Any takedown requests or legal problems from MBBank can contact the author at:
+
+- Email: mbbankocr-legal@thedt.id.vn
